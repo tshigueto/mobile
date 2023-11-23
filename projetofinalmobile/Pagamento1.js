@@ -1,18 +1,24 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, Image } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Pagamento = () => {
+  const navigation = useNavigation();
+
   const [NumCartao, setNumCartao] = useState('');
   const [DatValid, setDatValid] = useState('');
   const [cvv, setCvv] = useState('');
 
-  const pagment = () => {
-    // Adicione a lógica de pagamento aqui (simulada neste exemplo)
+  const pagament = () => {
     if (NumCartao && DatValid && cvv) {
-      alert('Pagamento realizado com sucesso.');
+      navigation.navigate('Validacao');
     } else {
       alert('Por favor, insira informações válidas do cartão.');
     }
+  };
+
+  const cancelar = () => {
+    navigation.navigate('Tela');
   };
 
   return (
@@ -45,12 +51,16 @@ const Pagamento = () => {
           onChangeText={(text) => setCvv(text)}
         />
       </View>
-      <TouchableOpacity style={styles.button} onPress={pagment}>
+
+      <TouchableOpacity style={styles.button} onPress={pagament}>
         <Text style={styles.buttonText}>Pagar</Text>
       </TouchableOpacity>
 
-      {/* Logo fixo no canto superior direito */}
-      <Image style={styles.logo} source={require('./Logo RentEnergy.png')} />
+      <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={cancelar}>
+        <Text style={styles.buttonText}>Cancelar</Text>
+      </TouchableOpacity>
+
+      <Image style={styles.logo} source={require('./LogoRentEnergy.png')} />
     </View>
   );
 };
@@ -61,6 +71,7 @@ const styles = StyleSheet.create({
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   logo: {
     position: 'absolute',
@@ -72,7 +83,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 20,
-    color: 'green'
+    color: 'green',
   },
   cardInput: {
     marginBottom: 27,
@@ -86,12 +97,19 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: 'green',
     padding: 15,
-    borderRadius: 15,
-    marginTop: 20, // Adicione margem para separar o botão do logo
+    borderRadius: 5,
+    marginTop: 20,
+    width: 200,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
     color: 'white',
     fontSize: 16,
+  },
+  cancelButton: {
+    backgroundColor: 'red', 
   },
 });
 
